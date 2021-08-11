@@ -1,0 +1,27 @@
+[
+    {
+        "request": {
+            "method": "GET",
+            "pathCondition": "exact",
+            "path": "/"
+        },
+        "response": {
+            "httpStatus": 200,
+            "body": "hi!"
+        }
+    },
+    {
+        "request": {
+            "method": "GET",
+            "pathCondition": "exact",
+            "path": "/kokokodah"
+        },
+        "response": {
+            "httpStatus": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": "{\"a\": 1}"
+        }
+    }
+]

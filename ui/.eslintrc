@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "eslint-plugin-import-helpers"
+  ],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "endOfLine": "auto"
+    }],
+    "import-helpers/order-imports": ["warn", {
+      "newlinesBetween": "never",
+      "groups": [
+        "/^react/",
+        "module",
+        "/^@mui/",
+        ["parent", "sibling", "index"]
+      ],
+      "alphabetize": { "order": "asc" }
+    }]
+  }
+}
