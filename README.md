@@ -15,8 +15,8 @@ MockChamp has two main components:
 2) Stub server `http://localhost:8182`. Handles incoming Http requests, picks up mock rules
    and makes fake responses.
 
-You can initialize MockChamp when starting a docker container with a set of mock rules from a json file.
-To do this, mount `rules.json` (see `Dockerfiles/rules.json`) in the `/mockchamp` folder of your docker container.
+You can initialize MockChamp when starting a docker container with a set of mock rules from a json files.
+To do this, mount `*.json` files (see `dockerfiles/rules.json` example) in the `/mockchamp` folder of your docker container.
 
 ```
 docker run -d -p 8181:8181 -p 8182:8182 -v $(pwd)/dockerfiles:/mockchamp sergeyhartmann/mockchamp

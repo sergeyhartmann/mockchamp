@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 
 	"go.uber.org/zap"
 )
@@ -22,7 +23,14 @@ func NewInitializer(collection *Collection, logger *zap.Logger) *Initializer {
 }
 
 func (i Initializer) Init(dirname string) {
-	rules := i.parseRulesFromFile(dirname)
+	if _, err := os.Stat(dirname); os.IsNotExist(err) {
+		i.logger.Info("directory is not exist, rules not initialized",
+			zap.String("dirname", dirname),
+		)
+		return
+	}
+
+	rules := i.parseFromDir(dirname)
 	for _, rule := range rules {
 		if err := rule.Validate(); err != nil {
 			continue
@@ -35,40 +43,61 @@ func (i Initializer) Init(dirname string) {
 		i.collection.Add(rule)
 	}
 
-	i.logger.Info("rule collection is initialized",
+	i.logger.Info("parse rules from directory is finished",
+		zap.String("dirname", dirname),
 		zap.Int("added", len(i.collection.GetAll())),
 		zap.Int("skipped", len(rules)-len(i.collection.GetAll())),
 	)
 }
 
-func (i Initializer) parseRulesFromFile(dirname string) []MockingRule {
-	filename := path.Join(dirname, "rules.json")
-
-	_, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		i.logger.Info("rules.json for initializing was not found",
-			zap.String("filename", filename),
+func (i Initializer) parseFromDir(dirname string) []MockingRule {
+	entries, err := ioutil.ReadDir(dirname)
+	if err != nil {
+		i.logger.Error("error reading directory",
+			zap.String("dirname", dirname),
 		)
 		return nil
 	}
 
+	mockingRules := make([]MockingRule, 0)
+	for _, entry := range entries {
+		entryName := path.Join(dirname, entry.Name())
+
+		if entry.IsDir() {
+			mockingRules = append(mockingRules, i.parseFromDir(entryName)...)
+			continue
+		}
+
+		if strings.HasSuffix(entryName, ".json") {
+			mockingRules = append(mockingRules, i.parseFromFile(entryName)...)
+		}
+	}
+
+	return mockingRules
+}
+
+func (i Initializer) parseFromFile(filename string) []MockingRule {
 	b, err := ioutil.ReadFile(filename)
 	if err != nil {
-		i.logger.Error("error reading rules.json",
-			zap.Error(err),
+		i.logger.Error("error reading file",
 			zap.String("filename", filename),
 		)
 		return nil
 	}
 
 	rules := make([]MockingRule, 0)
-	if err := json.Unmarshal(b, &rules); err != nil {
-		i.logger.Error("error parsing rules.json",
-			zap.Error(err),
-			zap.String("filename", filename),
-		)
-		return nil
+	if err := json.Unmarshal(b, &rules); err == nil { // parse as array of objects
+		return rules
 	}
 
-	return rules
+	rule := MockingRule{}
+	if err := json.Unmarshal(b, &rule); err == nil { // parse as single object
+		return []MockingRule{rule}
+	}
+
+	i.logger.Error("error parsing rules from file",
+		zap.String("filename", filename),
+	)
+
+	return nil
 }
