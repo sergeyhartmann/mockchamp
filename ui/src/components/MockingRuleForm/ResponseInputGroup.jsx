@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, InputAdornment, TextField } from '@mui/material';
 import { responsePropType } from '../../models/mockingRule';
+import ResponseBody from './ResponseBody';
 import ResponseHeaders from './ResponseHeaders';
 import {
     CHANGE_RESPONSE_BODY_ACTION,
@@ -27,8 +28,8 @@ const ResponseInputGroup = ({ state, dispatch, errors }) => {
         dispatch({ type: CHANGE_RESPONSE_HEADERS_ACTION, payload: headers });
     };
 
-    const handleBodyChange = (event) => {
-        dispatch({ type: CHANGE_RESPONSE_BODY_ACTION, payload: event.target.value });
+    const handleBodyChange = (body) => {
+        dispatch({ type: CHANGE_RESPONSE_BODY_ACTION, payload: body });
     };
 
     return (
@@ -63,15 +64,7 @@ const ResponseInputGroup = ({ state, dispatch, errors }) => {
             </Grid>
 
             <Grid item>
-                <TextField
-                    label="Response body"
-                    fullWidth
-                    multiline
-                    minRows={10}
-                    maxRows={20}
-                    value={state.body || ''}
-                    onChange={handleBodyChange}
-                />
+                <ResponseBody body={state.body} onChange={handleBodyChange} />
             </Grid>
         </Grid>
     );
