@@ -9,10 +9,11 @@ import ErrorSplashScreen from '../ErrorSplashScreen';
 import InputGroupContainer from './InputGroupContainer';
 import RequestInputGroup from './RequestInputGroup';
 import ResponseInputGroup from './ResponseInputGroup';
-import { useForm } from './useForm';
+import Tags from './Tags';
+import { CHANGE_TAGS_ACTION, useForm } from './useForm';
 import { useMockingRuleRemove } from './useMockingRuleRemove';
 
-const MockingRuleForm = ({ rule }) => {
+const MockingRuleForm = ({ rule, tags }) => {
     const history = useHistory();
     const { state, dispatch, submit } = useForm(rule);
     const { remove, removing, hasErrorOnRemove } = useMockingRuleRemove(rule?.id);
@@ -54,6 +55,14 @@ const MockingRuleForm = ({ rule }) => {
     return (
         <Grid container direction="column" spacing={2}>
             <Grid item>
+                <Tags
+                    options={tags}
+                    value={state.formData.tags}
+                    onChange={(value) => dispatch({ type: CHANGE_TAGS_ACTION, payload: value })}
+                />
+            </Grid>
+
+            <Grid item>
                 <InputGroupContainer title="When following condition is matched (for request)">
                     <RequestInputGroup
                         state={state.formData.request}
@@ -82,6 +91,12 @@ const MockingRuleForm = ({ rule }) => {
 
 MockingRuleForm.propTypes = {
     rule: PropTypes.shape(mockingRulePropType),
+    tags: PropTypes.arrayOf(PropTypes.string),
+};
+
+MockingRuleForm.defaultProps = {
+    rule: undefined,
+    tags: [],
 };
 
 export default MockingRuleForm;

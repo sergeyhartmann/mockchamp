@@ -9,7 +9,11 @@ const EDIT_RULE_ROUTE = '/rule/:id';
 
 const EditRulePage = () => {
     const { id } = useParams();
-    const { loading, hasError, data: rule } = useFetch(`/api/rule/${id}`);
+    const { loading: ruleLoading, hasError: ruleHasError, data: rule } = useFetch(`/api/rule/${id}`);
+    const { loading: tagsLoading, hasError: tagsHasError, data: tags } = useFetch(`/api/tags`);
+
+    const loading = ruleLoading || tagsLoading;
+    const hasError = ruleHasError || tagsHasError;
 
     if (loading) {
         return null;
@@ -22,7 +26,7 @@ const EditRulePage = () => {
             {!hasError && rule && (
                 <>
                     <Page.Title showBackButton>Edit mocking rule</Page.Title>
-                    <MockingRuleForm rule={rule} />
+                    <MockingRuleForm rule={rule} tags={tags} />
                     <Page.Footer />
                 </>
             )}

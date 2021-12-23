@@ -12,6 +12,7 @@ type MockingRule struct {
 type Data struct {
 	Request  Request  `json:"request"`
 	Response Response `json:"response"`
+	Tags     []string `json:"tags,omitempty"`
 }
 
 func (d Data) Validate() error {

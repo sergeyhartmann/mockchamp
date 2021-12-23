@@ -48,4 +48,5 @@ export const mockingRulePropType = {
     id: PropTypes.string.isRequired,
     request: PropTypes.shape(requestPropType).isRequired,
     response: PropTypes.shape(responsePropType).isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
 };
