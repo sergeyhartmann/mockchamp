@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, Grid } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { mockingRulePropType } from '../../models/mockingRule';
 import { HOME_PAGE_ROUTE } from '../../pages/HomePage';
 import ErrorSplashScreen from '../ErrorSplashScreen';
@@ -32,20 +32,17 @@ const MockingRuleForm = ({ rule, tags }) => {
             variant="contained"
             onClick={onSubmit}
             disabled={state.submitting || removing}
-            fullWidth
             sx={{ minWidth: '180px' }}
         >
             Save
         </Button>
     );
 
-    const actions = state.formData.id ? (
-        <Grid container alignItems="center" justifyContent="center" spacing={2}>
-            <Grid item>{buttonDelete}</Grid>
-            <Grid item>{buttonSubmit}</Grid>
-        </Grid>
-    ) : (
-        buttonSubmit
+    const actions = (
+        <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
+            {state.formData.id && buttonDelete}
+            {buttonSubmit}
+        </Stack>
     );
 
     if (hasErrorOnRemove) {
@@ -53,39 +50,31 @@ const MockingRuleForm = ({ rule, tags }) => {
     }
 
     return (
-        <Grid container direction="column" spacing={2}>
-            <Grid item>
-                <Tags
-                    options={tags}
-                    value={state.formData.tags}
-                    onChange={(value) => dispatch({ type: CHANGE_TAGS_ACTION, payload: value })}
+        <Stack spacing={2}>
+            <Tags
+                options={tags}
+                value={state.formData.tags}
+                onChange={(value) => dispatch({ type: CHANGE_TAGS_ACTION, payload: value })}
+            />
+
+            <InputGroupContainer title="When following condition is matched (for request)">
+                <RequestInputGroup
+                    state={state.formData.request}
+                    dispatch={dispatch}
+                    errors={state.formError.request}
                 />
-            </Grid>
+            </InputGroupContainer>
 
-            <Grid item>
-                <InputGroupContainer title="When following condition is matched (for request)">
-                    <RequestInputGroup
-                        state={state.formData.request}
-                        dispatch={dispatch}
-                        errors={state.formError.request}
-                    />
-                </InputGroupContainer>
-            </Grid>
+            <InputGroupContainer title="Do the following (for response)">
+                <ResponseInputGroup
+                    state={state.formData.response}
+                    dispatch={dispatch}
+                    errors={state.formError.response}
+                />
+            </InputGroupContainer>
 
-            <Grid item>
-                <InputGroupContainer title="Do the following (for response)">
-                    <ResponseInputGroup
-                        state={state.formData.response}
-                        dispatch={dispatch}
-                        errors={state.formError.response}
-                    />
-                </InputGroupContainer>
-            </Grid>
-
-            <Grid item alignSelf="flex-end">
-                {actions}
-            </Grid>
-        </Grid>
+            {actions}
+        </Stack>
     );
 };
 

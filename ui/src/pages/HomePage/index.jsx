@@ -1,14 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import { Button, Grid } from '@mui/material';
+import { Button, Link, Stack } from '@mui/material';
 import ErrorSplashScreen from '../../components/ErrorSplashScreen';
 import Page from '../../components/Page';
 import { useFetch } from '../../hooks/useFetch';
 import { CREATE_RULE_ROUTE } from '../CreateRulePage';
 import FilterByTags from './FilterByTags';
-import MockingRuleList from './MockingRuleList';
+import MockingRule from './MockingRule';
 import WelcomeSplashScreen from './WelcomeSplashScreen';
+import { downloadObjectAsJson } from './download';
 import { useFilterByTags } from './useFilterByTags';
 
 const HOME_PAGE_ROUTE = '/';
@@ -28,6 +29,14 @@ const HomePage = () => {
         </Button>
     );
 
+    const actions = (
+        <Stack direction="row" justifyContent="flex-end" spacing={2}>
+            <Link component="button" onClick={() => downloadObjectAsJson(rules, 'rules')}>
+                Export JSON
+            </Link>
+        </Stack>
+    );
+
     if (loading) {
         return null;
     }
@@ -42,15 +51,15 @@ const HomePage = () => {
                 <>
                     <Page.Title action={buttonAddMockingRule}>Mocking rules</Page.Title>
 
-                    <Grid container direction="column" spacing={2}>
-                        <Grid item>
-                            <FilterByTags tags={tags} onSelect={onSelectedTagChange} />
-                        </Grid>
+                    <Stack spacing={2}>
+                        <FilterByTags tags={tags} onSelect={onSelectedTagChange} />
 
-                        <Grid item>
-                            <MockingRuleList rules={filter(rules)} />
-                        </Grid>
-                    </Grid>
+                        {actions}
+
+                        {filter(rules).map((rule) => (
+                            <MockingRule key={rule.id} rule={rule} />
+                        ))}
+                    </Stack>
 
                     <Page.Footer />
                 </>
