@@ -36,6 +36,7 @@ func NewApiServer(
 	router.PATCH("/api/rule/:id", api.RuleEditHandler(ruleCollection))
 	router.POST("/api/rule", api.RuleCreateHandler(ruleCollection))
 	router.GET("/api/rules", api.RulesGetHandler(ruleCollection))
+	router.GET("/api/tags", api.TagsGetHandler(ruleCollection))
 
 	router.ServeFiles("/ui/*filepath", http.Dir(config.PublicDir))
 

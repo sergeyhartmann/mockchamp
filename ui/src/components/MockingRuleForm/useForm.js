@@ -8,6 +8,7 @@ const CHANGE_RESPONSE_HTTP_STATUS_ACTION = 'changeResponseHttpStatus';
 const CHANGE_RESPONSE_DELAYED_BY_ACTION = 'changeResponseDelayedBy';
 const CHANGE_RESPONSE_HEADERS_ACTION = 'changeResponseHeaders';
 const CHANGE_RESPONSE_BODY_ACTION = 'changeResponseBody';
+const CHANGE_TAGS_ACTION = 'changeTagsAction';
 const START_SUBMITTING_ACTION = 'startSubmitting';
 const FINISH_SUBMITTING_ACTION = 'finishSubmitting';
 const UPDATE_FORM_ERROR_ACTION = 'updateFormError';
@@ -34,6 +35,7 @@ const initialState = {
             headers: {},
             body: '',
         },
+        tags: [],
     },
     formError: {},
     submitting: false,
@@ -68,6 +70,10 @@ const reducer = (state, action) => {
 
         case CHANGE_RESPONSE_BODY_ACTION:
             newState.formData.response.body = action.payload;
+            return newState;
+
+        case CHANGE_TAGS_ACTION:
+            newState.formData.tags = action.payload;
             return newState;
 
         case START_SUBMITTING_ACTION:
@@ -129,4 +135,5 @@ export {
     CHANGE_RESPONSE_DELAYED_BY_ACTION,
     CHANGE_RESPONSE_HEADERS_ACTION,
     CHANGE_RESPONSE_BODY_ACTION,
+    CHANGE_TAGS_ACTION,
 };
