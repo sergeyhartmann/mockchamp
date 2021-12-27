@@ -31,6 +31,10 @@ const HomePage = () => {
 
     const actions = (
         <Stack direction="row" justifyContent="flex-end" spacing={2}>
+            <Link component="button" onClick={() => window.open('/api/log')}>
+                Request Log
+            </Link>
+
             <Link component="button" onClick={() => downloadObjectAsJson(rules, 'rules')}>
                 Export JSON
             </Link>

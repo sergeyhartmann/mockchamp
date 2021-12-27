@@ -38,7 +38,7 @@ const ResponseBody = ({ body, onChange }) => {
 
     useEffect(() => {
         onChange(format(body));
-    }, [type]);
+    }, [type]); // eslint-disable-line
 
     return (
         <Grid container direction="column" spacing={1}>

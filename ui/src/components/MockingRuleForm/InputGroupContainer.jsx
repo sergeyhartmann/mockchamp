@@ -6,9 +6,11 @@ const InputGroupContainer = ({ title, children }) => {
     return (
         <Paper>
             <Box p={4}>
-                <Typography mb={2} fontWeight={500}>
-                    {title}
-                </Typography>
+                {title && (
+                    <Typography mb={2} fontWeight={500}>
+                        {title}
+                    </Typography>
+                )}
                 {children}
             </Box>
         </Paper>
@@ -18,6 +20,10 @@ const InputGroupContainer = ({ title, children }) => {
 InputGroupContainer.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
+};
+
+InputGroupContainer.defaultProps = {
+    title: '',
 };
 
 export default InputGroupContainer;

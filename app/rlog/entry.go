@@ -9,11 +9,10 @@ import (
 
 type EntryWithoutDebug struct {
 	Request struct {
-		Method    string            `json:"method"`
-		Url       string            `json:"url"`
-		UserAgent string            `json:"userAgent"`
-		Headers   map[string]string `json:"headers,omitempty"`
-		Body      string            `json:"body,omitempty"`
+		Method  string            `json:"method"`
+		Url     string            `json:"url"`
+		Headers map[string]string `json:"headers,omitempty"`
+		Body    string            `json:"body,omitempty"`
 	} `json:"request"`
 
 	Response struct {
@@ -28,7 +27,7 @@ type EntryWithoutDebug struct {
 type Entry struct {
 	EntryWithoutDebug
 	Debug struct {
-		MatchedRules []rule.MockingRule `json:"matchedRules"`
+		Rules []rule.MockingRule `json:"rules"`
 	} `json:"debug"`
 }
 
@@ -42,7 +41,7 @@ func CreateEntry(r *http.Request) Entry {
 func (e *Entry) FillResponseFromMatchedRules(matchedRules []rule.MockingRule) {
 	if len(matchedRules) > 0 {
 		e.fillResponse(matchedRules[0])
-		e.Debug.MatchedRules = matchedRules
+		e.Debug.Rules = matchedRules
 	}
 }
 
@@ -56,7 +55,6 @@ func (e *Entry) fillRequest(r *http.Request) {
 
 	e.Request.Method = r.Method
 	e.Request.Url = r.RequestURI
-	e.Request.UserAgent = r.UserAgent()
 	e.Request.Headers = headers
 	e.Request.Body = string(bodyBytes)
 }
