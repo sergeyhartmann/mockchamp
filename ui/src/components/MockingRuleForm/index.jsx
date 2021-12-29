@@ -51,12 +51,6 @@ const MockingRuleForm = ({ rule, tags }) => {
 
     return (
         <Stack spacing={2}>
-            <Tags
-                options={tags}
-                value={state.formData.tags}
-                onChange={(value) => dispatch({ type: CHANGE_TAGS_ACTION, payload: value })}
-            />
-
             <InputGroupContainer title="When following condition is matched (for request)">
                 <RequestInputGroup
                     state={state.formData.request}
@@ -70,6 +64,14 @@ const MockingRuleForm = ({ rule, tags }) => {
                     state={state.formData.response}
                     dispatch={dispatch}
                     errors={state.formError.response}
+                />
+            </InputGroupContainer>
+
+            <InputGroupContainer>
+                <Tags
+                    options={tags}
+                    value={state.formData.tags}
+                    onChange={(value) => dispatch({ type: CHANGE_TAGS_ACTION, payload: value })}
                 />
             </InputGroupContainer>
 

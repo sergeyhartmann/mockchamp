@@ -1,4 +1,4 @@
-![plot](./logo.png)
+![plot](./mockchamp.png)
 
 MockChamp - a tool for mock Http Api. This is a regular [docker container](https://hub.docker.com/r/sergeyhartmann/mockchamp)
 you can add to your environment.

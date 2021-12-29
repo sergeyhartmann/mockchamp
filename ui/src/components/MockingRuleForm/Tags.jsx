@@ -16,7 +16,12 @@ const Tags = ({ options, value, onChange }) => {
             value={value}
             onChange={handleTagsChange}
             renderInput={(params) => (
-                <TextField {...params} variant="standard" label="Tags" placeholder="Enter tag name and press Enter" />
+                <TextField
+                    {...params}
+                    variant="standard"
+                    label="Tags (optional)"
+                    placeholder="Enter tag name and press Enter"
+                />
             )}
         />
     );
