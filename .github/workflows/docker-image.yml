@@ -1,0 +1,40 @@
+name: Build image and push to Docker Hub
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+      
+      - name: Build Go
+        run: GOOS=linux GOARCH=amd64 go build -o bin/mockchamp ./cmd/mockchamp
+      
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      
+      - name: Build Js
+        run: cd ui; yarn install; yarn build; cd ../
+      
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        
+      - name: Build image
+        run: docker build -t sergeyhartmann/mockchamp:latest -t sergeyhartmann/mockchamp:${{ env.RELEASE_VERSION }} .
+        
+      - name: Push image to Docker Hub
+        run: docker push -a sergeyhartmann/mockchamp
