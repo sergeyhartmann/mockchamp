@@ -28,7 +28,7 @@ jobs:
           node-version: 16.x
       
       - name: Build Js
-        run: cd ui; yarn install; yarn build; cd ../
+        run: cd ui; npm install; npm run build; cd ../
       
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}

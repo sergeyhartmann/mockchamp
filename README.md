@@ -65,6 +65,6 @@ go run cmd/mockchamp/main.go
 
 ```
 cd ui
-yarn install
-yarn start
+npm install
+npm run start
 ```
