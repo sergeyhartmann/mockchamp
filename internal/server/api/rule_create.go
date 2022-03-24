@@ -5,11 +5,11 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/sergeyhartmann/mockchamp/app/rule"
+	"github.com/sergeyhartmann/mockchamp/internal/rule"
 )
 
-func RuleEditHandler(ruleCollection *rule.Collection) httprouter.Handle {
-	parseResponse := func(r *http.Request) (rule.Data, error) {
+func RuleCreateHandler(ruleCollection *rule.Collection) httprouter.Handle {
+	parseRequest := func(r *http.Request) (rule.Data, error) {
 		data := rule.Data{}
 		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
 			return rule.Data{}, err
@@ -19,13 +19,7 @@ func RuleEditHandler(ruleCollection *rule.Collection) httprouter.Handle {
 	}
 
 	return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		mockingRule, found := ruleCollection.Get(params.ByName("id"))
-		if !found {
-			EmptyResponseNotFound(w)
-			return
-		}
-
-		data, err := parseResponse(r)
+		data, err := parseRequest(r)
 		if err != nil {
 			EmptyResponseBadRequest(w)
 			return
@@ -36,8 +30,11 @@ func RuleEditHandler(ruleCollection *rule.Collection) httprouter.Handle {
 			return
 		}
 
-		mockingRule.Data = data
-		ruleCollection.Update(mockingRule)
+		mockingRule := rule.MockingRule{
+			Id:   rule.GenerateId(),
+			Data: data,
+		}
+		ruleCollection.Add(mockingRule)
 
 		JsonResponseOK(w, mockingRule)
 	}

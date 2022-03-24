@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/sergeyhartmann/mockchamp/app/rlog"
-	"github.com/sergeyhartmann/mockchamp/app/rule"
-	"github.com/sergeyhartmann/mockchamp/app/server/api"
+	"github.com/sergeyhartmann/mockchamp/internal/rlog"
+	"github.com/sergeyhartmann/mockchamp/internal/rule"
+	"github.com/sergeyhartmann/mockchamp/internal/server/api"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

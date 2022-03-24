@@ -7,8 +7,8 @@ import { mockingRulePropType } from '../../models/mockingRule';
 import { HOME_PAGE_ROUTE } from '../../pages/HomePage';
 import ErrorSplashScreen from '../ErrorSplashScreen';
 import InputGroupContainer from './InputGroupContainer';
-import RequestInputGroup from './RequestInputGroup';
-import ResponseInputGroup from './ResponseInputGroup';
+import InputGroupRequest from './InputGroupRequest';
+import InputGroupResponse from './InputGroupResponse';
 import Tags from './Tags';
 import { CHANGE_TAGS_ACTION, useForm } from './useForm';
 import { useMockingRuleRemove } from './useMockingRuleRemove';
@@ -52,7 +52,7 @@ const MockingRuleForm = ({ rule, tags }) => {
     return (
         <Stack spacing={2}>
             <InputGroupContainer title="When following condition is matched (for request)">
-                <RequestInputGroup
+                <InputGroupRequest
                     state={state.formData.request}
                     dispatch={dispatch}
                     errors={state.formError.request}
@@ -60,7 +60,7 @@ const MockingRuleForm = ({ rule, tags }) => {
             </InputGroupContainer>
 
             <InputGroupContainer title="Do the following (for response)">
-                <ResponseInputGroup
+                <InputGroupResponse
                     state={state.formData.response}
                     dispatch={dispatch}
                     errors={state.formError.response}

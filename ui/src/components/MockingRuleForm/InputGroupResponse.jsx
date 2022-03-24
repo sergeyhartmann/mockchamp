@@ -11,7 +11,7 @@ import {
     CHANGE_RESPONSE_HTTP_STATUS_ACTION,
 } from './useForm';
 
-const ResponseInputGroup = ({ state, dispatch, errors }) => {
+const InputGroupResponse = ({ state, dispatch, errors }) => {
     const handleHttpStatusChange = (event) => {
         if (/^[0-9]*$/.test(event.target.value)) {
             dispatch({ type: CHANGE_RESPONSE_HTTP_STATUS_ACTION, payload: parseInt(event.target.value, 10) || 0 });
@@ -70,7 +70,7 @@ const ResponseInputGroup = ({ state, dispatch, errors }) => {
     );
 };
 
-ResponseInputGroup.propTypes = {
+InputGroupResponse.propTypes = {
     state: PropTypes.shape(responsePropType).isRequired,
     dispatch: PropTypes.func.isRequired,
     errors: PropTypes.shape({
@@ -79,8 +79,8 @@ ResponseInputGroup.propTypes = {
     }),
 };
 
-ResponseInputGroup.defaultProps = {
+InputGroupResponse.defaultProps = {
     errors: {},
 };
 
-export default ResponseInputGroup;
+export default InputGroupResponse;

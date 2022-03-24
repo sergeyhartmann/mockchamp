@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/sergeyhartmann/mockchamp/app/rule"
+	"github.com/sergeyhartmann/mockchamp/internal/rule"
 )
 
 func RuleDeleteHandler(ruleCollection *rule.Collection) httprouter.Handle {

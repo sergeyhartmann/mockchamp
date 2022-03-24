@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+export const METHOD_ANY = 'ANY';
 export const METHOD_GET = 'GET';
 export const METHOD_HEAD = 'HEAD';
 export const METHOD_POST = 'POST';

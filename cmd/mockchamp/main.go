@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 
-	"github.com/sergeyhartmann/mockchamp/app/config"
-	"github.com/sergeyhartmann/mockchamp/app/logger"
-	"github.com/sergeyhartmann/mockchamp/app/rlog"
-	"github.com/sergeyhartmann/mockchamp/app/rule"
-	"github.com/sergeyhartmann/mockchamp/app/server"
+	"github.com/sergeyhartmann/mockchamp/internal/config"
+	"github.com/sergeyhartmann/mockchamp/internal/logger"
+	"github.com/sergeyhartmann/mockchamp/internal/rlog"
+	"github.com/sergeyhartmann/mockchamp/internal/rule"
+	"github.com/sergeyhartmann/mockchamp/internal/server"
 	"go.uber.org/fx"
 )
 

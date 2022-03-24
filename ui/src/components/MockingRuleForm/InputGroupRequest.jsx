@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import {
+    METHOD_ANY,
     METHOD_GET,
     METHOD_HEAD,
     METHOD_POST,
@@ -26,6 +27,10 @@ import {
 } from './useForm';
 
 const methodSelectOptions = [
+    {
+        value: METHOD_ANY,
+        label: METHOD_ANY,
+    },
     {
         value: METHOD_GET,
         label: METHOD_GET,
@@ -79,7 +84,7 @@ const pathConditionSelectOptions = [
     },
 ];
 
-const RequestInputGroup = ({ state, dispatch, errors }) => {
+const InputGroupRequest = ({ state, dispatch, errors }) => {
     const handleMethodChange = (event) => {
         dispatch({ type: CHANGE_REQUEST_METHOD_ACTION, payload: event.target.value });
     };
@@ -149,7 +154,7 @@ const RequestInputGroup = ({ state, dispatch, errors }) => {
     );
 };
 
-RequestInputGroup.propTypes = {
+InputGroupRequest.propTypes = {
     state: PropTypes.shape(requestPropType).isRequired,
     dispatch: PropTypes.func.isRequired,
     errors: PropTypes.shape({
@@ -159,8 +164,8 @@ RequestInputGroup.propTypes = {
     }),
 };
 
-RequestInputGroup.defaultProps = {
+InputGroupRequest.defaultProps = {
     errors: {},
 };
 
-export default RequestInputGroup;
+export default InputGroupRequest;

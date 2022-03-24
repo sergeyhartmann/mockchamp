@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/sergeyhartmann/mockchamp/app/rlog"
+	"github.com/sergeyhartmann/mockchamp/internal/rlog"
 )
 
 func LogGetHandler(recorder *rlog.Recorder) httprouter.Handle {

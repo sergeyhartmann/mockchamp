@@ -5,7 +5,7 @@ import (
 	"sort"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/sergeyhartmann/mockchamp/app/rule"
+	"github.com/sergeyhartmann/mockchamp/internal/rule"
 )
 
 func TagsGetHandler(ruleCollection *rule.Collection) httprouter.Handle {

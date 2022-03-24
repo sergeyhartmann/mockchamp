@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { METHOD_GET, PATH_CONDITION_EXACT } from '../../models/mockingRule';
+import { METHOD_ANY, PATH_CONDITION_EXACT } from '../../models/mockingRule';
 
 const CHANGE_REQUEST_METHOD_ACTION = 'changeRequestMethod';
 const CHANGE_REQUEST_PATH_CONDITION_ACTION = 'changeRequestPathCondition';
@@ -25,7 +25,7 @@ const initialState = {
     formData: {
         id: '',
         request: {
-            method: METHOD_GET,
+            method: METHOD_ANY,
             pathCondition: PATH_CONDITION_EXACT,
             path: '/',
         },

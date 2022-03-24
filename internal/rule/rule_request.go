@@ -22,7 +22,7 @@ type Request struct {
 }
 
 func (r Request) Match(method string, path string) bool {
-	if r.Method != method {
+	if r.Method != "ANY" && r.Method != method {
 		return false
 	}
 
@@ -46,6 +46,7 @@ func (r Request) Validate() error {
 		"method": validation.Validate(&r.Method,
 			validation.Required,
 			validation.In(
+				"ANY",
 				http.MethodGet,
 				http.MethodHead,
 				http.MethodPost,

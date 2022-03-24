@@ -4,10 +4,10 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/sergeyhartmann/mockchamp/app/rlog"
+	"github.com/sergeyhartmann/mockchamp/internal/rlog"
 
-	"github.com/sergeyhartmann/mockchamp/app/rule"
-	"github.com/sergeyhartmann/mockchamp/app/server/stub"
+	"github.com/sergeyhartmann/mockchamp/internal/rule"
+	"github.com/sergeyhartmann/mockchamp/internal/server/stub"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

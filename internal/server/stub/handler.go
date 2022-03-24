@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/sergeyhartmann/mockchamp/app/rlog"
-	"github.com/sergeyhartmann/mockchamp/app/rule"
+	"github.com/sergeyhartmann/mockchamp/internal/rlog"
+	"github.com/sergeyhartmann/mockchamp/internal/rule"
 )
 
 func Handler(ruleMatcher *rule.Matcher, recorder *rlog.Recorder) (http.HandlerFunc, error) {

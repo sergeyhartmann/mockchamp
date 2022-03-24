@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/sergeyhartmann/mockchamp/app/logger"
-	"github.com/sergeyhartmann/mockchamp/app/server"
+	"github.com/sergeyhartmann/mockchamp/internal/logger"
+	"github.com/sergeyhartmann/mockchamp/internal/server"
 	"go.uber.org/config"
 	"go.uber.org/fx"
 )
