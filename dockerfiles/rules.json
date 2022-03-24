@@ -7,22 +7,7 @@
         },
         "response": {
             "httpStatus": 200,
-            "body": "hi!"
+            "body": "kokokodah"
         }
-    },
-    {
-        "request": {
-            "method": "GET",
-            "pathCondition": "exact",
-            "path": "/kokokodah"
-        },
-        "response": {
-            "httpStatus": 200,
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": "{\"a\": 1}"
-        },
-        "tags": ["Example json response"]
     }
 ]

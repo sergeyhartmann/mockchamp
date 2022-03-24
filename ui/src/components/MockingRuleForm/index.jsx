@@ -22,7 +22,12 @@ const MockingRuleForm = ({ rule, tags }) => {
     const onDelete = () => remove(() => history.push(HOME_PAGE_ROUTE));
 
     const buttonDelete = (
-        <Button startIcon={<DeleteIcon />} onClick={onDelete} disabled={state.submitting || removing} size="small">
+        <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            onClick={onDelete}
+            disabled={state.submitting || removing}
+        >
             Delete
         </Button>
     );
@@ -50,7 +55,7 @@ const MockingRuleForm = ({ rule, tags }) => {
     }
 
     return (
-        <Stack spacing={2}>
+        <Stack spacing={4}>
             <InputGroupContainer title="When following condition is matched (for request)">
                 <InputGroupRequest
                     state={state.formData.request}

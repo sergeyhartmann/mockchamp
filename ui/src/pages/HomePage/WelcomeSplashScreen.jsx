@@ -21,7 +21,7 @@ const WelcomeSplashScreen = () => {
 
     return (
         <SplashScreen
-            title="Hey! Create first mocking rule"
+            title="Create first mocking rule"
             description="In future you can change or delete it."
             action={button}
         />

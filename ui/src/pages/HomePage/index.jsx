@@ -7,7 +7,7 @@ import Page from '../../components/Page';
 import { useFetch } from '../../hooks/useFetch';
 import { CREATE_RULE_ROUTE } from '../CreateRulePage';
 import FilterByTags from './FilterByTags';
-import MockingRule from './MockingRule';
+import MockingRulesTable from './MockingRulesTable';
 import WelcomeSplashScreen from './WelcomeSplashScreen';
 import { downloadObjectAsJson } from './download';
 import { useFilterByTags } from './useFilterByTags';
@@ -31,10 +31,6 @@ const HomePage = () => {
 
     const actions = (
         <Stack direction="row" justifyContent="flex-end" spacing={2}>
-            <Link component="button" onClick={() => window.open('/api/log')}>
-                Request Log
-            </Link>
-
             <Link component="button" onClick={() => downloadObjectAsJson(rules, 'rules')}>
                 Export JSON
             </Link>
@@ -60,9 +56,7 @@ const HomePage = () => {
 
                         {actions}
 
-                        {filter(rules).map((rule) => (
-                            <MockingRule key={rule.id} rule={rule} />
-                        ))}
+                        <MockingRulesTable rules={filter(rules)} />
                     </Stack>
 
                     <Page.Footer />

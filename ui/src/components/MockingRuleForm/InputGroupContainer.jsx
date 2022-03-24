@@ -4,10 +4,10 @@ import { Box, Paper, Typography } from '@mui/material';
 
 const InputGroupContainer = ({ title, children }) => {
     return (
-        <Paper>
+        <Paper elevation={2}>
             <Box p={4}>
                 {title && (
-                    <Typography mb={2} fontWeight={500}>
+                    <Typography mb={4} fontWeight={500}>
                         {title}
                     </Typography>
                 )}

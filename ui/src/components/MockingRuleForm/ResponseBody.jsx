@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import Code from './Code';
 import { TYPE_JSON, TYPE_TEXT, TYPE_XML, useFormatter } from './useFormatter';
 
 const helperTextBase = (
     <Typography variant="body2" color="textSecondary">
-        Press <Code>Ctrl+S</Code> (or <Code>Cmd+S</Code> for Macintosh) for formatting.
+        Press `Ctrl+S` (or `Cmd+S` for Macintosh) for formatting.
     </Typography>
 );
 
@@ -63,7 +62,7 @@ const ResponseBody = ({ body, onChange }) => {
             </Grid>
 
             <Grid item container alignItems="center" spacing={1}>
-                <Grid item>
+                <Grid item xs={12} md="auto">
                     <ToggleButtonGroup value={type} exclusive onChange={handleTypeChange} size="small">
                         <ToggleButton value={TYPE_TEXT}>{TYPE_TEXT}</ToggleButton>
                         <ToggleButton value={TYPE_XML}>{TYPE_XML}</ToggleButton>
@@ -71,7 +70,7 @@ const ResponseBody = ({ body, onChange }) => {
                     </ToggleButtonGroup>
                 </Grid>
 
-                <Grid item>
+                <Grid item xs={12} md="auto">
                     {type === TYPE_XML && hasError && helperTextInvalidXml}
                     {type === TYPE_XML && !hasError && helperTextBase}
 

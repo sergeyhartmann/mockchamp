@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Paper, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Paper, TextField, Typography } from '@mui/material';
 
 const transformHeadersToRows = (headers) => {
     const entries = Object.entries(headers);
@@ -25,7 +25,6 @@ const transformRowsToHeaders = (rows) => {
 };
 
 const ResponseHeaders = ({ headers, onChange }) => {
-    const theme = useTheme();
     const [rows, setRows] = useState(transformHeadersToRows(headers));
 
     const changeHandler = (index, target) => {
@@ -51,11 +50,11 @@ const ResponseHeaders = ({ headers, onChange }) => {
     };
 
     return (
-        <Paper sx={{ background: theme.palette.background.default }}>
+        <Paper elevation={4}>
             <Box p={2}>
                 <Grid container spacing={2}>
                     <Grid item>
-                        <Typography>Response headers</Typography>
+                        <Typography color="textSecondary">Response headers</Typography>
                     </Grid>
 
                     {rows.map((row, index) => (

@@ -8,7 +8,7 @@ const Title = ({ showBackButton, action, children }) => {
     const history = useHistory();
 
     const backButton = (
-        <Button startIcon={<NavigateBefore />} size="small" onClick={history.goBack}>
+        <Button startIcon={<NavigateBefore />} onClick={history.goBack}>
             Back
         </Button>
     );
