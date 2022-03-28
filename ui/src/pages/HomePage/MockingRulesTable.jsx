@@ -1,17 +1,20 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
 import {
     Box,
     IconButton,
     Paper,
+    Stack,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TablePagination,
     TableRow,
+    Tooltip,
     Typography,
     useTheme,
 } from '@mui/material';
@@ -29,11 +32,22 @@ const MockingRulesTable = ({ rules }) => {
         '& tbody > tr > td': { borderBottom: 'none' },
     };
 
-    const action = (rule) => (
-        <IconButton size="small" onClick={() => history.push(EDIT_RULE_ROUTE.replace(':id', rule.id))}>
-            <EditIcon fontSize="small" />
-        </IconButton>
-    );
+    const getPath = (path = '') => {
+        if (path.length < 55) {
+            return path;
+        }
+
+        return (
+            <Stack direction="row" alignItems="center">
+                <Tooltip title={path}>
+                    <Typography variant="body2">{path.substring(0, 55) + '...'}</Typography>
+                </Tooltip>
+                <IconButton size="small" onClick={() => navigator.clipboard.writeText(path)}>
+                    <ContentCopyIcon htmlColor={theme.palette.text.secondary} sx={{ fontSize: '16px' }} />
+                </IconButton>
+            </Stack>
+        );
+    };
 
     return (
         <Box>
@@ -54,9 +68,16 @@ const MockingRulesTable = ({ rules }) => {
                                     </Typography>
                                 </TableCell>
 
-                                <TableCell sx={{ width: '100%' }}>{rule.request.path}</TableCell>
+                                <TableCell sx={{ width: '100%' }}>{getPath(rule.request.path)}</TableCell>
 
-                                <TableCell align="right">{action(rule)}</TableCell>
+                                <TableCell align="right">
+                                    <IconButton
+                                        size="small"
+                                        onClick={() => history.push(EDIT_RULE_ROUTE.replace(':id', rule.id))}
+                                    >
+                                        <EditIcon fontSize="small" />
+                                    </IconButton>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
