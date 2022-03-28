@@ -33,8 +33,13 @@ jobs:
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         
-      - name: Build image
+      - name: Build image with tag latest
+        if: !contains(${{ env.RELEASE_VERSION }}, 'rc')
         run: docker build -t sergeyhartmann/mockchamp:latest -t sergeyhartmann/mockchamp:${{ env.RELEASE_VERSION }} .
+
+      - name: Build image
+        if: contains(${{ env.RELEASE_VERSION }}, 'rc')
+        run: docker build -t sergeyhartmann/mockchamp:${{ env.RELEASE_VERSION }} .
         
       - name: Push image to Docker Hub
         run: docker push -a sergeyhartmann/mockchamp
