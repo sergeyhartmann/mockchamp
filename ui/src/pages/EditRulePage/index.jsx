@@ -9,8 +9,8 @@ const EDIT_RULE_ROUTE = '/rule/:id';
 
 const EditRulePage = () => {
     const { id } = useParams();
-    const { loading: ruleLoading, hasError: ruleHasError, data: rule } = useFetch(`/api/rule/${id}`);
-    const { loading: tagsLoading, hasError: tagsHasError, data: tags } = useFetch(`/api/tags`);
+    const { loading: ruleLoading, hasError: ruleHasError, data: rule } = useFetch(`/__api/rule/${id}`);
+    const { loading: tagsLoading, hasError: tagsHasError, data: tags } = useFetch(`/__api/tags`);
 
     const loading = ruleLoading || tagsLoading;
     const hasError = ruleHasError || tagsHasError;

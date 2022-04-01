@@ -31,8 +31,7 @@ func main() {
 			rule.NewCollection,
 			rule.NewInitializer,
 			rule.NewMatcher,
-			server.NewApiServer,
-			server.NewStubServer,
+			server.NewServer,
 		),
 		fx.Invoke(register),
 	)
@@ -47,10 +46,8 @@ func main() {
 func register(
 	lc fx.Lifecycle,
 	initializer *rule.Initializer,
-	apiServer *server.ApiServer,
-	stubServer *server.StubServer,
+	server *server.Server,
 ) {
 	initializer.Init(*workdir)
-	apiServer.Run(lc)
-	stubServer.Run(lc)
+	server.Run(lc)
 }

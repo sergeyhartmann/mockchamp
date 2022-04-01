@@ -43,11 +43,7 @@ func (i Initializer) Init(dirname string) {
 		i.collection.Add(rule)
 	}
 
-	i.logger.Info("parse rules from directory is finished",
-		zap.String("dirname", dirname),
-		zap.Int("added", len(i.collection.GetAll())),
-		zap.Int("skipped", len(rules)-len(i.collection.GetAll())),
-	)
+	i.logger.Info("parse rules from directory is finished", zap.String("dirname", dirname))
 }
 
 func (i Initializer) parseFromDir(dirname string) []MockingRule {

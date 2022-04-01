@@ -7,7 +7,7 @@ import { useFetch } from '../../hooks/useFetch';
 const CREATE_RULE_ROUTE = '/rule';
 
 const CreateRulePage = () => {
-    const { loading, hasError, data: tags } = useFetch('/api/tags');
+    const { loading, hasError, data: tags } = useFetch('/__api/tags');
 
     if (loading) {
         return null;

@@ -8,7 +8,7 @@ const useMockingRuleRemove = (id) => {
         try {
             setRemoving(true);
 
-            const response = await fetch(`/api/rule/${id}`, { method: 'DELETE' });
+            const response = await fetch(`/__api/rule/${id}`, { method: 'DELETE' });
             if (response.status !== 200) {
                 setErrorOnRemove(true);
                 return;

@@ -1,9 +1,7 @@
 logger:
-  level: debug
+  level: info
 
 server:
-  api:
-    address: :8181
-    public_dir: ./ui/build
-  stub:
-    address: :8182
+  address: :8181
+  public_dir: ./ui/build
+

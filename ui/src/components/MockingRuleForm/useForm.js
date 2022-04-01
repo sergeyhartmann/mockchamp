@@ -101,7 +101,7 @@ const useForm = (rule) => {
         try {
             dispatch({ type: START_SUBMITTING_ACTION });
 
-            const response = await fetch(state.formData.id ? `/api/rule/${state.formData.id}` : '/api/rule', {
+            const response = await fetch(state.formData.id ? `/__api/rule/${state.formData.id}` : '/__api/rule', {
                 method: state.formData.id ? 'PATCH' : 'POST',
                 body: JSON.stringify(state.formData),
             });

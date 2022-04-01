@@ -19,7 +19,7 @@ func NewZapLogger(config Config) (*zap.Logger, error) {
 
 	cfg.Level.SetLevel(lvl)
 	cfg.DisableStacktrace = true
-	cfg.Encoding = "json"
+	cfg.Encoding = "console"
 	cfg.OutputPaths = []string{"stdout"}
 	cfg.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 

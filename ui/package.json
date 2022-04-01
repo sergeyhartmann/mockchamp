@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env PUBLIC_URL=/ui react-scripts build",
+    "build": "cross-env PUBLIC_URL=/__ui react-scripts build",
     "eslint": "eslint --ext .js,.jsx src/**"
   },
   "proxy": "http://localhost:8181",

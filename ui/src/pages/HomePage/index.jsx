@@ -16,8 +16,8 @@ const HOME_PAGE_ROUTE = '/';
 
 const HomePage = () => {
     const history = useHistory();
-    const { loading: rulesLoading, hasError: rulesHasError, data: rules } = useFetch('/api/rules');
-    const { loading: tagsLoading, hasError: tagsHasError, data: tags } = useFetch('/api/tags');
+    const { loading: rulesLoading, hasError: rulesHasError, data: rules } = useFetch('/__api/rules');
+    const { loading: tagsLoading, hasError: tagsHasError, data: tags } = useFetch('/__api/tags');
     const { filter, onSelectedTagChange } = useFilterByTags();
 
     const loading = rulesLoading || tagsLoading;
