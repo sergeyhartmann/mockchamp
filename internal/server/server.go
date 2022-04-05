@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
@@ -32,6 +33,7 @@ func NewServer(
 ) (*Server, error) {
 	router := httprouter.New()
 
+	// internal API routes
 	router.GET("/__api/log", api.LogGetHandler(recorder))
 	router.DELETE("/__api/rule/:id", api.RuleDeleteHandler(ruleCollection))
 	router.GET("/__api/rule/:id", api.RuleGetHandler(ruleCollection))
@@ -40,14 +42,19 @@ func NewServer(
 	router.GET("/__api/rules", api.RulesGetHandler(ruleCollection))
 	router.GET("/__api/tags", api.TagsGetHandler(ruleCollection))
 
+	// static files for web interface
 	router.ServeFiles("/__ui/*filepath", http.Dir(config.PublicDir))
 
-	stubHandler, err := stub.Handler(ruleMatcher, recorder)
+	// main handler for stub server
+	handle, err := stub.Handler(ruleMatcher, recorder)
 	if err != nil {
 		return nil, err
 	}
 
-	router.NotFound = stubHandler
+	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		handle(w, r)
+		logger.Info(fmt.Sprintf("%s %s", r.Method, r.RequestURI))
+	})
 
 	return &Server{
 		server: &http.Server{
