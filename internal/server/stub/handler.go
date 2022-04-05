@@ -32,11 +32,11 @@ func Handler(ruleMatcher *rule.Matcher, recorder *rlog.Recorder) (http.HandlerFu
 
 		if len(matchedRules) == 0 {
 			logEntry.Response.Status = env.ResponseStatusCode
-			logEntry.Response.Body = env.ResponseMessage
+			logEntry.Response.Body = env.ResponseMessage()
 			recorder.AddEntry(logEntry)
 
 			w.WriteHeader(env.ResponseStatusCode)
-			_, _ = w.Write([]byte(env.ResponseMessage))
+			_, _ = w.Write([]byte(env.ResponseMessage()))
 
 			return
 		}
