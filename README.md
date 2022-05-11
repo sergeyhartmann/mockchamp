@@ -1,61 +1,63 @@
-MockChamp - a tool for mock HTTP API. This is a regular [docker container](https://hub.docker.com/r/sergeyhartmann/mockchamp)
-you can add to your environment.
+[[RU](./README.md)] [[EN](./README_en.md)]
 
-## Getting Started
+MockChamp - open-source инструмент для мока HTTP API. MockChamp написан на Go и распространяется как 
+[docker container](https://hub.docker.com/r/sergeyhartmann/mockchamp).
 
-```
-docker run -d -p 8181:8181 sergeyhartmann/mockchamp
-```
-
-On `localhost:8181` HTTP stub server will be started. It will process any incoming requests and return fake responses,
-depending on the configured rules. You can use a special internal API or web interface to set up rules.
-
-Reserved HTTP routes on Stub server:
-
-- http://localhost:8181/__ui - web interface.
-- http://localhost:8181/__api - internal API.
-
-You can initialize MockChamp when starting a docker container with a set of mock rules from a json files.
-To do this, mount `*.json` files (see `dockerfiles/rules.json` example) in the `/mockchamp` folder of your docker container.
+## Начало работы c MockChamp
 
 ```
-docker run -d -p 8181:8181 -v $(pwd)/dockerfiles:/mockchamp sergeyhartmann/mockchamp
+docker run -p 8181:8181 sergeyhartmann/mockchamp
 ```
 
-## Environment Variables
+На `localhost:8181` будет запущен HTTP Stub сервер. Он принимает входящие запросы и отдает фейковый ответ,
+в зависимости от настроенных правил. Вы можете создать их используя специальное API или веб интерфейс.
+
+Зарезервированные HTTP роуты у Stub сервера:
+
+- http://localhost:8181/__ui - веб интерфейс.
+- http://localhost:8181/__api - внутренее API.
+
+Вы можете инициализировать MockChamp набором правил из json файлов. Для этого, при страте docker container,
+монтируйте свои `*.json` файлы (для примера см. `dockerfiles/rules.json`) в папку `/mockchamp` внутри docker container.
 
 ```
-docker run -d \
+docker run -p 8181:8181 -v $(pwd)/dockerfiles:/mockchamp sergeyhartmann/mockchamp
+```
+
+## Переменные окружения
+
+```
+docker run \
   -p 8181:8181 \
-  -e PROXY_HOST='google.com' \
+  -e PROXY_HOST='example.com' \
   sergeyhartmann/mockchamp
 ```
 
 `PROXY_HOST`
 
-If the Stub server does not match the mock rule for the request, the request will be proxied to the specified host.
-If host is not specified, then the Stub server will return response with HTTP Status 200 OK.
+Если у Stub сервера нет подходящего правила для входящего запроса, то он будет проксирован на указанный хост.
+В случае если прокси хост не указан, Stub сервер вернет HTTP Status код 200 OK.
 
 `RESPONSE_STATUS_CODE`
 
-If the Stub server does not match the mock rule for the request, it will return a response with the specified HTTP status.
+Если у Stub сервера нет подходящего правила для входящего запроса, то сервер вернет указанный HTTP Status код.
 
-## Development
+## Разработка
 
-1. Clone repository
+1. Склонируйте репозиторий
 
 ```
 git clone https://github.com/sergeyhartmann/mockchamp
 cd mockchamp
 ```
 
-2. Run `main.go`
+2. Запустите `main.go` (Stub сервер + внутренне API для веб интерфейса)
 
 ```
 go run cmd/mockchamp/main.go
 ```
 
-3. For web interface run React App
+3. Для веб интерфейса запустите React App
 
 ```
 cd ui
