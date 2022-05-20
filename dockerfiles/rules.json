@@ -3,11 +3,41 @@
         "request": {
             "method": "GET",
             "pathCondition": "exact",
-            "path": "/"
+            "path": "/example1"
         },
         "response": {
             "httpStatus": 200,
-            "body": "kokokodah"
+            "body": "simple text response"
+        }
+    },
+    {
+        "request": {
+            "method": "GET",
+            "pathCondition": "exact",
+            "path": "/example2"
+        },
+        "response": {
+            "httpStatus": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": "{\"msg\": \"simple json response\"}"
+        }
+    },
+    {
+        "request": {
+            "method": "GET",
+            "pathCondition": "exact",
+            "path": "/example3"
+        },
+        "response": {
+            "httpStatus": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "bodyJson": {
+                "msg": "simple json response"
+            }
         }
     }
 ]

@@ -33,6 +33,7 @@ func (i Initializer) Init(dirname string) {
 	rules := i.parseFromDir(dirname)
 	for _, rule := range rules {
 		if err := rule.Validate(); err != nil {
+			i.logger.Error("rule has wrong data", zap.Error(err))
 			continue
 		}
 
