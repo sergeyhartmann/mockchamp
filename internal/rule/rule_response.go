@@ -44,7 +44,7 @@ func (r *Response) UnmarshalJSON(data []byte) error {
 	r.Body = jr.Body
 
 	if len(jr.BodyJson) > 0 {
-		b, _ := jr.BodyJson.MarshalJSON()
+		b, _ := json.MarshalIndent(jr.BodyJson, "", "    ")
 		r.Body = string(b)
 	}
 

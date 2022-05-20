@@ -10,6 +10,7 @@
             "body": "simple text response"
         }
     },
+
     {
         "request": {
             "method": "GET",
@@ -24,6 +25,7 @@
             "body": "{\"msg\": \"simple json response\"}"
         }
     },
+
     {
         "request": {
             "method": "GET",
@@ -38,6 +40,26 @@
             "bodyJson": {
                 "msg": "simple json response"
             }
+        }
+    },
+
+    {
+        "request": {
+            "method": "GET",
+            "pathCondition": "exact",
+            "path": "/example4"
+        },
+        "response": {
+            "httpStatus": 200,
+            "delayedBy": 1500,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "bodyJson": [
+                {"msg": "simple json response with delayed 1"},
+                {"msg": "simple json response with delayed 2"},
+                {"msg": "simple json response with delayed 3"}
+            ]
         }
     }
 ]
