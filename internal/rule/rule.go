@@ -4,7 +4,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
-type MockingRule struct {
+type Rule struct {
 	Data
 	Id string `json:"id"`
 }

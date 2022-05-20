@@ -30,12 +30,12 @@ func RuleCreateHandler(ruleCollection *rule.Collection) httprouter.Handle {
 			return
 		}
 
-		mockingRule := rule.MockingRule{
+		rule := rule.Rule{
 			Id:   rule.GenerateId(),
 			Data: data,
 		}
-		ruleCollection.Add(mockingRule)
+		ruleCollection.Add(rule)
 
-		JsonResponseOK(w, mockingRule)
+		JsonResponseOK(w, rule)
 	}
 }

@@ -48,16 +48,16 @@ func Handler(ruleMatcher *rule.Matcher, recorder *rlog.Recorder) (http.HandlerFu
 	}, nil
 }
 
-func sendResponse(w http.ResponseWriter, mockingRule rule.MockingRule) {
-	if mockingRule.Response.DelayedBy > 0 {
-		time.Sleep(time.Duration(mockingRule.Response.DelayedBy) * time.Millisecond)
+func sendResponse(w http.ResponseWriter, rule rule.Rule) {
+	if rule.Response.DelayedBy > 0 {
+		time.Sleep(time.Duration(rule.Response.DelayedBy) * time.Millisecond)
 	}
 
-	for key, val := range mockingRule.Response.Headers {
+	for key, val := range rule.Response.Headers {
 		w.Header().Set(key, val)
 	}
 
-	w.WriteHeader(mockingRule.Response.HttpStatus)
+	w.WriteHeader(rule.Response.HttpStatus)
 
-	_, _ = w.Write([]byte(mockingRule.Response.Body))
+	_, _ = w.Write([]byte(rule.Response.Body))
 }

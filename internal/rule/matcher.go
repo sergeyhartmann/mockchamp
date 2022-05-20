@@ -10,7 +10,7 @@ func NewMatcher(collection *Collection) *Matcher {
 	return &Matcher{collection}
 }
 
-func (m Matcher) Match(r *http.Request) []MockingRule {
+func (m Matcher) Match(r *http.Request) []Rule {
 	var (
 		method = r.Method
 		path   = r.RequestURI
@@ -20,7 +20,7 @@ func (m Matcher) Match(r *http.Request) []MockingRule {
 		method = http.MethodGet
 	}
 
-	matched := make([]MockingRule, 0)
+	matched := make([]Rule, 0)
 	for _, rule := range m.collection.GetAll() {
 		if rule.Request.Match(method, path) {
 			matched = append(matched, rule)

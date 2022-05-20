@@ -27,7 +27,7 @@ type EntryWithoutDebug struct {
 type Entry struct {
 	EntryWithoutDebug
 	Debug struct {
-		Rules []rule.MockingRule `json:"rules"`
+		Rules []rule.Rule `json:"rules"`
 	} `json:"debug"`
 }
 
@@ -38,7 +38,7 @@ func CreateEntry(r *http.Request) Entry {
 	return entry
 }
 
-func (e *Entry) FillResponseFromMatchedRules(matchedRules []rule.MockingRule) {
+func (e *Entry) FillResponseFromMatchedRules(matchedRules []rule.Rule) {
 	if len(matchedRules) > 0 {
 		e.fillResponse(matchedRules[0])
 		e.Debug.Rules = matchedRules
@@ -59,8 +59,8 @@ func (e *Entry) fillRequest(r *http.Request) {
 	e.Request.Body = string(bodyBytes)
 }
 
-func (e *Entry) fillResponse(mockingRule rule.MockingRule) {
-	e.Response.Status = mockingRule.Response.HttpStatus
-	e.Response.Headers = mockingRule.Response.Headers
-	e.Response.Body = mockingRule.Response.Body
+func (e *Entry) fillResponse(rule rule.Rule) {
+	e.Response.Status = rule.Response.HttpStatus
+	e.Response.Headers = rule.Response.Headers
+	e.Response.Body = rule.Response.Body
 }

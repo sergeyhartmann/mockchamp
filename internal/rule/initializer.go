@@ -47,7 +47,7 @@ func (i Initializer) Init(dirname string) {
 	i.logger.Info("parse rules from directory is finished", zap.String("dirname", dirname))
 }
 
-func (i Initializer) parseFromDir(dirname string) []MockingRule {
+func (i Initializer) parseFromDir(dirname string) []Rule {
 	entries, err := ioutil.ReadDir(dirname)
 	if err != nil {
 		i.logger.Error("error reading directory",
@@ -56,24 +56,24 @@ func (i Initializer) parseFromDir(dirname string) []MockingRule {
 		return nil
 	}
 
-	mockingRules := make([]MockingRule, 0)
+	rules := make([]Rule, 0)
 	for _, entry := range entries {
 		entryName := path.Join(dirname, entry.Name())
 
 		if entry.IsDir() {
-			mockingRules = append(mockingRules, i.parseFromDir(entryName)...)
+			rules = append(rules, i.parseFromDir(entryName)...)
 			continue
 		}
 
 		if strings.HasSuffix(entryName, ".json") {
-			mockingRules = append(mockingRules, i.parseFromFile(entryName)...)
+			rules = append(rules, i.parseFromFile(entryName)...)
 		}
 	}
 
-	return mockingRules
+	return rules
 }
 
-func (i Initializer) parseFromFile(filename string) []MockingRule {
+func (i Initializer) parseFromFile(filename string) []Rule {
 	b, err := ioutil.ReadFile(filename)
 	if err != nil {
 		i.logger.Error("error reading file",
@@ -82,14 +82,14 @@ func (i Initializer) parseFromFile(filename string) []MockingRule {
 		return nil
 	}
 
-	rules := make([]MockingRule, 0)
+	rules := make([]Rule, 0)
 	if err := json.Unmarshal(b, &rules); err == nil { // parse as array of objects
 		return rules
 	}
 
-	rule := MockingRule{}
+	rule := Rule{}
 	if err := json.Unmarshal(b, &rule); err == nil { // parse as single object
-		return []MockingRule{rule}
+		return []Rule{rule}
 	}
 
 	i.logger.Error("error parsing rules from file",

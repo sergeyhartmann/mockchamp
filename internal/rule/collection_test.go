@@ -12,12 +12,12 @@ func TestCollection(t *testing.T) {
 	collection := NewCollection()
 
 	// add 3 rules
-	collection.Add(MockingRule{Id: "1"}, MockingRule{Id: "2"}, MockingRule{Id: "3"})
+	collection.Add(Rule{Id: "1"}, Rule{Id: "2"}, Rule{Id: "3"})
 	rules := collection.GetAll()
 	assert.Len(rules, 3)
 
 	// add 1 rule
-	collection.Add(MockingRule{Id: "4"})
+	collection.Add(Rule{Id: "4"})
 	rules = collection.GetAll()
 	assert.Len(rules, 4)
 

@@ -19,7 +19,7 @@ func RuleEditHandler(ruleCollection *rule.Collection) httprouter.Handle {
 	}
 
 	return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		mockingRule, found := ruleCollection.Get(params.ByName("id"))
+		rule, found := ruleCollection.Get(params.ByName("id"))
 		if !found {
 			EmptyResponseNotFound(w)
 			return
@@ -36,9 +36,9 @@ func RuleEditHandler(ruleCollection *rule.Collection) httprouter.Handle {
 			return
 		}
 
-		mockingRule.Data = data
-		ruleCollection.Update(mockingRule)
+		rule.Data = data
+		ruleCollection.Update(rule)
 
-		JsonResponseOK(w, mockingRule)
+		JsonResponseOK(w, rule)
 	}
 }
