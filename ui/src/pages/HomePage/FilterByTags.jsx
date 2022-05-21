@@ -24,7 +24,12 @@ const FilterByTags = ({ tags, onSelect }) => {
         <Grid container alignItems="center" spacing={1}>
             {tags.slice(0, expanded ? tags.length : MAX_VISIBLE).map((tag, index) => (
                 <Grid key={tag} item>
-                    <Chip color={flags[index] ? 'primary' : 'default'} label={tag} onClick={clickHandler(index)} />
+                    <Chip
+                        variant="outlined"
+                        color={flags[index] ? 'primary' : 'default'}
+                        label={tag}
+                        onClick={clickHandler(index)}
+                    />
                 </Grid>
             ))}
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import FilePresentIcon from '@mui/icons-material/FileDownload';
 import { Button, Link, Stack } from '@mui/material';
 import ErrorSplashScreen from '../../components/ErrorSplashScreen';
 import Page from '../../components/Page';
@@ -23,17 +24,22 @@ const HomePage = () => {
     const loading = rulesLoading || tagsLoading;
     const hasError = rulesHasError || tagsHasError;
 
-    const buttonAddMockingRule = (
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => history.push(CREATE_RULE_ROUTE)}>
-            Add mocking rule
-        </Button>
+    const linkDownloadJSON = (
+        <Stack direction="row" alignItems="center" spacing={0.5}>
+            <Link component="button" onClick={() => downloadObjectAsJson(rules, 'rules')}>
+                Download rules.json
+            </Link>
+            <FilePresentIcon fontSize="small" color="primary" />
+        </Stack>
     );
 
     const actions = (
         <Stack direction="row" justifyContent="flex-end" spacing={2}>
-            <Link component="button" onClick={() => downloadObjectAsJson(rules, 'rules')}>
-                Export JSON
-            </Link>
+            {linkDownloadJSON}
+
+            <Button variant="contained" startIcon={<AddIcon />} onClick={() => history.push(CREATE_RULE_ROUTE)}>
+                Add mocking rule
+            </Button>
         </Stack>
     );
 
@@ -49,7 +55,7 @@ const HomePage = () => {
 
             {!hasError && rules?.length > 0 && (
                 <>
-                    <Page.Title action={buttonAddMockingRule}>Mocking rules</Page.Title>
+                    <Page.Title>Mocking rules</Page.Title>
 
                     <Stack spacing={2}>
                         <FilterByTags tags={tags} onSelect={onSelectedTagChange} />

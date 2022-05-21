@@ -10,7 +10,6 @@
             "body": "simple text response"
         }
     },
-
     {
         "request": {
             "method": "GET",
@@ -25,7 +24,6 @@
             "body": "{\"msg\": \"simple json response\"}"
         }
     },
-
     {
         "request": {
             "method": "GET",
@@ -42,7 +40,6 @@
             }
         }
     },
-
     {
         "request": {
             "method": "GET",

@@ -28,7 +28,7 @@ const MockingRulesTable = ({ rules }) => {
     const { rowsPerPage, page, handleChangeRowsPerPage, handleChangePage } = useTablePagination(10, 0);
 
     const style = {
-        '& tbody > tr:not(:last-child)': { borderBottom: `1px solid ${theme.palette.divider}` },
+        '& tbody > tr': { borderBottom: `1px solid ${theme.palette.divider}` },
         '& tbody > tr > td': { borderBottom: 'none' },
     };
 
@@ -75,24 +75,23 @@ const MockingRulesTable = ({ rules }) => {
                                         size="small"
                                         onClick={() => history.push(EDIT_RULE_ROUTE.replace(':id', rule.id))}
                                     >
-                                        <EditIcon fontSize="small" />
+                                        <EditIcon sx={{ fontSize: 18 }} />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
+                <TablePagination
+                    component="div"
+                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    count={rules.length}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
             </TableContainer>
-
-            <TablePagination
-                component="div"
-                rowsPerPageOptions={[10, 25, 100]}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                count={rules.length}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
         </Box>
     );
 };
