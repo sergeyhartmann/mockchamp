@@ -1,50 +1,80 @@
 package rule
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"os"
 	"path"
 	"strings"
 
+	"github.com/sergeyhartmann/mockchamp/internal/env"
+	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
 
+const dumpFilename = "__dump"
+
 type Initializer struct {
+	workdir    string
+	env        *env.EnvironmentVariables
 	collection *Collection
 	logger     *zap.Logger
 }
 
-func NewInitializer(collection *Collection, logger *zap.Logger) *Initializer {
+func NewInitializer(
+	workdir string,
+	env *env.EnvironmentVariables,
+	collection *Collection,
+	logger *zap.Logger,
+) *Initializer {
 	return &Initializer{
+		workdir:    workdir,
+		env:        env,
 		collection: collection,
 		logger:     logger,
 	}
 }
 
-func (i Initializer) Init(dirname string) {
-	if _, err := os.Stat(dirname); os.IsNotExist(err) {
-		i.logger.Info("directory is not exist, rules not initialized",
-			zap.String("dirname", dirname),
-		)
-		return
+func (i Initializer) Run(lc fx.Lifecycle) {
+	lc.Append(fx.Hook{
+		OnStart: i.onStart,
+		OnStop:  i.onStop,
+	})
+}
+
+func (i Initializer) onStart(_ context.Context) error {
+	if !i.isExist(i.workdir) {
+		i.logger.Info("directory is not exist, rules not initialized", zap.String("dirname", i.workdir))
+		return nil
 	}
 
-	rules := i.parseFromDir(dirname)
-	for _, rule := range rules {
-		if err := rule.Validate(); err != nil {
-			i.logger.Error("rule has wrong data", zap.Error(err))
-			continue
-		}
-
-		if len(rule.Id) == 0 {
-			rule.Id = GenerateId()
-		}
-
-		i.collection.Add(rule)
+	dump := path.Join(i.workdir, dumpFilename)
+	if i.isExist(dump) && i.env.PersistMode {
+		i.addToCollection(i.parseFromFile(dump))
+		i.logger.Info("rules successfully restored from dump")
+		return nil
 	}
 
-	i.logger.Info("parse rules from directory is finished", zap.String("dirname", dirname))
+	i.addToCollection(i.parseFromDir(i.workdir))
+	i.logger.Info("rules initialization complete from *.json files")
+
+	return nil
+}
+
+func (i Initializer) onStop(_ context.Context) error {
+	if i.env.PersistMode {
+		rules := i.collection.GetAll()
+		b, _ := json.Marshal(rules)
+		return ioutil.WriteFile(path.Join(i.workdir, dumpFilename), b, 0644)
+	}
+
+	return nil
+}
+
+func (i Initializer) isExist(name string) bool {
+	_, err := os.Stat(name)
+	return !os.IsNotExist(err)
 }
 
 func (i Initializer) parseFromDir(dirname string) []Rule {
@@ -97,4 +127,19 @@ func (i Initializer) parseFromFile(filename string) []Rule {
 	)
 
 	return nil
+}
+
+func (i Initializer) addToCollection(rules []Rule) {
+	for _, rule := range rules {
+		if err := rule.Validate(); err != nil {
+			i.logger.Error("rule has wrong data", zap.Error(err))
+			continue
+		}
+
+		if len(rule.Id) == 0 {
+			rule.Id = GenerateId()
+		}
+
+		i.collection.Add(rule)
+	}
 }

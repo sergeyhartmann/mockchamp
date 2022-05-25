@@ -4,11 +4,13 @@ import (
 	"flag"
 
 	"github.com/sergeyhartmann/mockchamp/internal/config"
+	"github.com/sergeyhartmann/mockchamp/internal/env"
 	"github.com/sergeyhartmann/mockchamp/internal/logger"
 	"github.com/sergeyhartmann/mockchamp/internal/rlog"
 	"github.com/sergeyhartmann/mockchamp/internal/rule"
 	"github.com/sergeyhartmann/mockchamp/internal/server"
 	"go.uber.org/fx"
+	"go.uber.org/zap"
 )
 
 var (
@@ -21,19 +23,28 @@ func main() {
 
 	app := fx.New(
 		fx.NopLogger,
+
 		fx.Provide(
 			func() (config.Config, error) {
 				return config.NewYAMLConfig(*configFile)
 			},
 
-			logger.NewZapLogger,
+			func(env *env.EnvironmentVariables, collection *rule.Collection, logger *zap.Logger) *rule.Initializer {
+				return rule.NewInitializer(*workdir, env, collection, logger)
+			},
+
 			rlog.NewRecorder,
+			logger.NewZapLogger,
 			rule.NewCollection,
-			rule.NewInitializer,
 			rule.NewMatcher,
 			server.NewServer,
+			env.NewEnvironmentVariables,
 		),
-		fx.Invoke(register),
+
+		fx.Invoke(func(lc fx.Lifecycle, initializer *rule.Initializer, server *server.Server) {
+			initializer.Run(lc)
+			server.Run(lc)
+		}),
 	)
 
 	if app.Err() != nil {
@@ -41,13 +52,4 @@ func main() {
 	}
 
 	app.Run()
-}
-
-func register(
-	lc fx.Lifecycle,
-	initializer *rule.Initializer,
-	server *server.Server,
-) {
-	initializer.Init(*workdir)
-	server.Run(lc)
 }

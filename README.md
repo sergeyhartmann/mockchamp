@@ -1,6 +1,6 @@
 [[RU](./README.md)] [[EN](./README_en.md)]
 
-MockChamp - open-source инструмент для мока HTTP API. MockChamp написан на Go и распространяется как 
+:muscle: MockChamp - open-source инструмент для мока HTTP API. MockChamp написан на Go и распространяется как 
 [docker container](https://hub.docker.com/r/sergeyhartmann/mockchamp).
 
 ## Начало работы c MockChamp
@@ -9,16 +9,16 @@ MockChamp - open-source инструмент для мока HTTP API. MockChamp
 docker run -p 8181:8181 sergeyhartmann/mockchamp
 ```
 
-На `localhost:8181` будет запущен HTTP Stub сервер. Он принимает входящие запросы и отдает фейковый ответ,
+На `localhost:8181` будет запущен HTTP сервер. Он принимает входящие запросы и отдает фейковый ответ,
 в зависимости от настроенных правил. Вы можете создать их используя специальное API или веб интерфейс.
 
-Зарезервированные HTTP роуты у Stub сервера:
+Зарезервированные HTTP роуты:
 
 - http://localhost:8181/__ui - веб интерфейс.
-- http://localhost:8181/__api - внутренее API.
+- http://localhost:8181/__api - API.
 
-Вы можете инициализировать MockChamp набором правил из json файлов. Для этого, при страте docker container,
-монтируйте свои `*.json` файлы (для примера см. `dockerfiles/rules.json`) в папку `/mockchamp` внутри docker container.
+Вы можете инициализировать MockChamp набором правил из json файлов. Для этого, при старте контейнера
+монтируйте свои `*.json` файлы (для примера см. `dockerfiles/rules.json`) в рабочий каталог `/mockchamp` docker container'a.
 
 ```
 docker run -p 8181:8181 -v $(pwd)/dockerfiles:/mockchamp sergeyhartmann/mockchamp
@@ -29,18 +29,27 @@ docker run -p 8181:8181 -v $(pwd)/dockerfiles:/mockchamp sergeyhartmann/mockcham
 ```
 docker run \
   -p 8181:8181 \
+  -v $(pwd)/dockerfiles:/mockchamp \
   -e PROXY_HOST='example.com' \
+  -e RESPONSE_STATUS_CODE=404 \
+  -e PERSIST_MODE=true \
   sergeyhartmann/mockchamp
 ```
 
 `PROXY_HOST`
 
-Если у Stub сервера нет подходящего правила для входящего запроса, то он будет проксирован на указанный хост.
-В случае если прокси хост не указан, Stub сервер вернет HTTP Status код 200 OK.
+Если у HTTP сервера нет подходящего правила для входящего запроса, то он будет проксирован на указанный хост.
+В случае если прокси хост не указан, сервер вернет HTTP Status код 200 OK.
 
 `RESPONSE_STATUS_CODE`
 
-Если у Stub сервера нет подходящего правила для входящего запроса, то сервер вернет указанный HTTP Status код.
+Если у HTTP сервера нет подходящего правила для входящего запроса, то сервер вернет указанный HTTP Status код.
+
+`PERSIST_MODE`
+
+Если включен персистентный режим, то все созданные правила через API или веб интерфейс будут сохранены 
+между рестартами docker container'a.
+
 
 ## Разработка
 
@@ -51,7 +60,7 @@ git clone https://github.com/sergeyhartmann/mockchamp
 cd mockchamp
 ```
 
-2. Запустите `main.go` (Stub сервер + внутренне API для веб интерфейса)
+2. Запустите `main.go`
 
 ```
 go run cmd/mockchamp/main.go

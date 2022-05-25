@@ -3,6 +3,7 @@ module github.com/sergeyhartmann/mockchamp
 go 1.17
 
 require (
+	github.com/caarlos0/env/v6 v6.9.2
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/google/uuid v1.3.0
 	github.com/julienschmidt/httprouter v1.3.0

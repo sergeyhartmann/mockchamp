@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/sergeyhartmann/mockchamp/internal/env"
+
 	"github.com/julienschmidt/httprouter"
 	"github.com/sergeyhartmann/mockchamp/internal/rlog"
 	"github.com/sergeyhartmann/mockchamp/internal/rule"
@@ -26,6 +28,7 @@ type Server struct {
 
 func NewServer(
 	config Config,
+	env *env.EnvironmentVariables,
 	ruleCollection *rule.Collection,
 	ruleMatcher *rule.Matcher,
 	recorder *rlog.Recorder,
@@ -46,7 +49,7 @@ func NewServer(
 	router.ServeFiles("/__ui/*filepath", http.Dir(config.PublicDir))
 
 	// main handler for stub server
-	handle, err := stub.Handler(ruleMatcher, recorder)
+	handle, err := stub.Handler(env, ruleMatcher, recorder)
 	if err != nil {
 		return nil, err
 	}
