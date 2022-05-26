@@ -4,7 +4,7 @@ import { Link, Stack, Typography } from '@mui/material';
 const Footer = () => {
     const title = (
         <Stack direction="row" alignItems="center" spacing={1}>
-            <img src="/favicon.ico" alt="" width={18} height={18} />
+            <img src={`${process.env.PUBLIC_URL}/favicon.ico`} alt="" width={18} height={18} />
             <Typography variant="body2" color="textSecondary">
                 MockChamp build ver. {process.env.REACT_APP_VERSION || 'DEV'}
             </Typography>
